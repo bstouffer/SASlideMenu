@@ -19,20 +19,23 @@
 @property (nonatomic,assign) Boolean isRightMenuEnabled;
 @property (nonatomic,strong) SASlideMenuNavigationController* navigationController;
 
-@property (nonatomic,strong) IBOutlet UIView* menuView;
-
--(void) switchToContentViewController:(UINavigationController*) content completion:(void (^)(void))completion;
--(void) addContentViewController:(UIViewController*) content withIndexPath:(NSIndexPath*)indexPath;
+-(void) switchToContentViewController:(UINavigationController*) content;
+-(void) addContentViewController:(UIViewController*) content withAction:(NSString*)action;
 
 -(void) popRightNavigationController;
 -(void) pushRightNavigationController:(SASlideMenuNavigationController*)navigationController;
 
--(UINavigationController*) controllerForIndexPath:(NSIndexPath*) indexPath;
+-(UINavigationController*) controllerForAction:(NSString*) action;
 
 -(void) doSlideToSide;
 -(void) doSlideToLeftSide;
+-(void) doSlideIn:(void (^)(BOOL completed))completion;
+
 -(void) rightMenuAction;
 -(void) addRightMenu;
 
 -(void) panItem:(UIPanGestureRecognizer*)gesture;
+-(void) clearControllers;
+
+
 @end

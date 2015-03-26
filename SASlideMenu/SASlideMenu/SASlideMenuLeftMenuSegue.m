@@ -15,12 +15,12 @@
 -(void) perform{
     SASlideMenuRootViewController* rootViewController = self.sourceViewController;
     SASlideMenuViewController* leftMenu = self.destinationViewController;
-    CGRect bounds = rootViewController.menuView.bounds;
+    CGRect bounds = rootViewController.view.bounds;
     leftMenu.view.frame = CGRectMake(0,0,bounds.size.width,bounds.size.height);
 
     [leftMenu willMoveToParentViewController:rootViewController];
     [rootViewController addChildViewController:leftMenu];
-    [rootViewController.menuView addSubview:leftMenu.view];
+    [rootViewController.view addSubview:leftMenu.view];
     rootViewController.leftMenu = leftMenu;
     
     leftMenu.rootController = rootViewController;
@@ -28,10 +28,11 @@
     [leftMenu didMoveToParentViewController:rootViewController];
     if ([rootViewController.leftMenu.slideMenuDataSource respondsToSelector:@selector(selectedIndexPath)]) {
         NSIndexPath* selectedIndexPath = [rootViewController.leftMenu.slideMenuDataSource selectedIndexPath];
-        if (selectedIndexPath) {
-            [leftMenu selectContentAtIndexPath:selectedIndexPath scrollPosition:UITableViewScrollPositionTop];
-        }
-    }   
+        [leftMenu.tableView selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionTop];
+        NSString* initialSegueId = [rootViewController.leftMenu.slideMenuDataSource segueIdForIndexPath:selectedIndexPath];
+        [leftMenu performSegueWithIdentifier:initialSegueId sender:leftMenu];
+    }
+   
 }
 
 @end
